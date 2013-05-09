@@ -10,18 +10,26 @@ namespace PTCAutomationTestFramework
     {
         void setSimulator();
         void cleanDebugclientmessage();
+        void deleteDebugClientmessage();
         void verifyDebugclientmessage();
+
+        void verifyBrakingEnforcementStop();
+        void verifyNewUpdatedAuthority();
+
+        void clearCurrentGoverningSignal();
         void firstInit();
         void reInit();
-        void clearcurrentSignal();
-        void readparams_comm_CPRS();
-        void readparams_CPRS();
 
         void LocoMotion(bool direction);
-        
-        void changeSwitchposition();
-        void changeSignalGoverning();
-        
+        void LocoMotion_SetSPD(float speed);
+
+        void selectMaintrack();
+
+        void changeSwitchposition(bool position);
+        void changeFacingSignal(int SG);
+
+        bool testAnalysis_Tracklmt(float expctedEndMP);
+        bool testAnalysis_SPDtgt(float speed);
         void testReportTMC();
 
     }

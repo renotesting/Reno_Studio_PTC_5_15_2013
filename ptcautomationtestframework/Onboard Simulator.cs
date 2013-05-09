@@ -20,6 +20,11 @@ namespace PTCAutomationTestFramework
             Console.WriteLine(" clean debug client succeed.");
         }
 
+        public void deleteDebugClientmessage()
+        {
+            Console.WriteLine(" clean debug client succeed.");
+        }
+
         public void verifyDebugclientmessage()
         {
                 Console.WriteLine(" Warning/braking enforcement succeeded.");
@@ -34,33 +39,29 @@ namespace PTCAutomationTestFramework
             Console.WriteLine(" reinit succeed.");
         }
 
-        public void clearcurrentSignal()
+        public void clearCurrentGoverningSignal()
         {
             Console.WriteLine(" current governing signal cleared successfully.");
         }
-        public void readparams_comm_CPRS()
-        {
-            Console.WriteLine(" read params comm CPRS succeed.");
-        }
-        public void readparams_CPRS()
-        {
-            Console.WriteLine(" read params CPRS succeed.");
-        }
-
+        
         public void LocoMotion(bool direction)
         {
             Console.WriteLine(" Move loco succeed. Movement direction is " + direction.ToString());
         }
 
-        public void changeSwitchposition()
+        public void LocoMotion_SetSPD(float speed)
         {
-                Console.WriteLine(" switch is in Normal position.");
+            Console.WriteLine(" Move loco succeed. Movement direction is " + speed.ToString());
         }
 
-        public void changeSignalGoverning()
+        public void changeSwitchposition(bool swPosition)
         {
-                Console.WriteLine(" signal is SG2/3/4/5.");
-                Console.WriteLine(" signal is SG1.");
+                Console.WriteLine(" switch is in Normal position." + swPosition.ToString());
+        }
+
+        public void changeFacingSignal(int SG)
+        {
+                Console.WriteLine(" signal is SG2/3/4/5." + SG.ToString());
         }
 
         public void testReportTMC()
@@ -70,27 +71,51 @@ namespace PTCAutomationTestFramework
 
         public void firstInit_run(bool direction)
         {
-            readparams_comm_CPRS();
-            readparams_CPRS();
             setSimulator();
             firstInit();
             LocoMotion(direction);
-            clearcurrentSignal();
+            clearCurrentGoverningSignal();
             verifyDebugclientmessage();
 
         }
 
         public void reInit_run(bool direction)
         {
-            readparams_comm_CPRS();
-            readparams_CPRS();
             setSimulator();
             reInit();
             LocoMotion(direction);
-            clearcurrentSignal();
             verifyDebugclientmessage();
         }
 
+
+        public void verifyBrakingEnforcementStop()
+        {
+                Console.WriteLine(" Train has braking enforcement and stops.");
+        }
+
+        public void verifyNewUpdatedAuthority()
+        {
+                Console.WriteLine(" Acknowledged authority.");
+        }
+
+        public void selectMaintrack()
+        {
+            Console.WriteLine(" Selected Main Track.");
+        }
+
+
+        public bool testAnalysis_Tracklmt(float expctedEndMP)
+        {
+            Console.WriteLine(" Test train stop before he end MP successfully .");
+            return false;
+        }
+
+        public bool testAnalysis_SPDtgt(float expectedSPD)
+        {
+            Console.WriteLine(" Test train stop successfully when movement speed is enforced.");
+            Console.WriteLine(expectedSPD);
+            return true;
+        }
         
     }
 }
