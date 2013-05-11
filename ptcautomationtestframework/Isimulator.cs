@@ -11,7 +11,7 @@ namespace PTCAutomationTestFramework
         void setSimulator();
         void cleanDebugclientmessage();
         void deleteDebugClientmessage();
-        void verifyDebugclientmessage();
+        string verifyDebugclientmessage(string message);
 
         void verifyBrakingEnforcementStop();
         void verifyNewUpdatedAuthority();
