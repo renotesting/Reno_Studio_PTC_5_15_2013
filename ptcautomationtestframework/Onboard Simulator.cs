@@ -23,8 +23,7 @@ namespace PTCAutomationTestFramework
             var proc = Process.Start("C:\\gitrepo\\ptc\\PTCAutomationTestFramework\\autoit\\DebugClientMessage_Clean_command.exe");
             proc.WaitForExit();
             Console.WriteLine(" Debug Client messages cleanned.");
-            _autoit.Sleep(2000);
-        }
+         }
 
         public void deleteDebugClientmessage()
         {
@@ -93,8 +92,180 @@ namespace PTCAutomationTestFramework
             _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
             _autoit.MouseClick("left", 788, 614);  //click 'Yes' (Left 1st Button)
             result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|PRM\|1\|D\|SELECT\sRAILROADS\sFOR\sINITIALIZATION");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            _autoit.MouseClick("left", 1097, 614);  //click 'Add' (Right 4th button)
+            _autoit.MouseClick("left", 1334, 614);  //click 'Submit' (Right 1st button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|Accept\|{7}Cancel");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
             
+            //Find a pure Cyon pixel in the range 769, 537, 833, 585
+            //Do
+            //    _autoit.Sleep(400);
+            //    Local $coord = PixelSearch(769, 537, 833, 585, 0x00FFFF)
+            //Until Not @error
+
+            do
+            {
+                _autoit.Sleep(400);
+                _autoit.PixelSearch(769, 537, 833, 585, 0x00FFFF);
+            } while (_autoit.error == 1);
+            
+            //Press Key to accept terms or cancel
+            _autoit.MouseClick("left", 778, 614);  //click 'Accept' (Left 1st button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|Cancel\|Show All Railroads\|\[UP\]\|\[DOWN\]\|Select\|{3}");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            //Select Railroad for logon
+            _autoit.MouseClick("left", 1097, 614);  //click 'Select' (Right 4th button)
+            _autoit.MouseClick("left", 1334, 614);  //click 'Submit' (Right 1st button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|\[UP\]\|\[DOWN\]\|\[LEFT\]\|\[RIGHT\]\|{4}Cancel");
+
+            //;TBC19_CLEARANCE_NUMBER_DIGITS                   5
+            //;TBC46_EMPLOYEE_ID_DIGITS                        6
+            //;TBC47_EMPLOYEE_PIN_DIGITS                       5
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            //6 clicks '>' at 1011,623
+            _autoit.MouseClick("left", 1008, 614, 6);  // click 6 '>' (Left Fourth Button) for employee id
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|\[UP\]\|\[DOWN\]\|\[LEFT\]\|\[RIGHT\]\|{3}Done\|Cancel");
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            _autoit.MouseClick("left", 1257, 614);     // click 'Done' (Right second Button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|\[UP\]\|\[DOWN\]\|\[LEFT\]\|\[RIGHT\]\|{4}Cancel");
+            //5 clicks '>' at 1011,623
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            _autoit.MouseClick("left", 1008, 614, 5);  // click 5 '>' (left Fourth Button) for employee pin
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|\[UP\]\|\[DOWN\]\|\[LEFT\]\|\[RIGHT\]\|{3}Done\|Cancel");
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            _autoit.MouseClick("left", 1257, 614);     // click 'Done' (Right second Button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|\[UP\]\|\[DOWN\]\|\[LEFT\]\|\[RIGHT\]\|{4}Cancel");
+
+            // Wait for Verification
+            // Find a pure Blue pixel in the range
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            //Do
+            //    Local $coord = PixelSearch(1011, 600, 1029, 638, 0x0000FF)
+            //Until Not @error
+            //do
+            //{
+            //    _autoit.PixelSearch(1011, 600, 1029, 638, 0x00FFFF);
+
+            //} while (_autoit.error == 1);
+
+            //5 clicks '>' at 1011,623
+            //MouseClick("left", 1008, 623, 5) ; click 5 '>' (Right Fourth Button) for clearance #00000
+
+            //Cleance # 99256
+            _autoit.MouseClick("left", 860, 623, 1);    //click 1 'down' (Left 2nd Button) for clearance #9
+            _autoit.MouseClick("left", 1008, 623, 1);   //click 1 '>' (Right Fourth Button) for clearance #shift right
+            _autoit.MouseClick("left", 860, 623, 1);    //click 1 'down' (Left 2nd Button) for clearance #9
+            _autoit.MouseClick("left", 1008, 623, 1);   //click 1 '>' (Right Fourth Button) for clearance #shift right
+            _autoit.MouseClick("left", 778, 623, 2);    //click 2 'up' (Left 1nd Button) for clearance #2
+            _autoit.MouseClick("left", 1008, 623, 1);   //click 1 '>' (Right Fourth Button) for clearance #shift right
+            _autoit.MouseClick("left", 778, 623, 5);    //click 2 'up' (Left 1nd Button) for clearance #5
+            _autoit.MouseClick("left", 1008, 623, 1);   //click 1 '>' (Right Fourth Button) for clearance #shift right
+            _autoit.MouseClick("left", 778, 623, 6);    //click 2 'up' (Left 1nd Button) for clearance #6
+
+            _autoit.MouseClick("left", 1257, 614);      //click 'Submit' (Right 2nd button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|PRM\|1\|D\|CPRS\s{2}1234\sSELECTED\sFOR\sCPRS\sIS\sTHIS\sCORRECT\?");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+
+            //; wait for Train ID
+            //; Find a pure Cyon pixel in the range
+            //Do
+            //    Local $coord = PixelSearch(769, 537, 833, 585, 0x00FFFF)
+            //Until Not @error
+            do
+            {
+                _autoit.Sleep(400);
+                _autoit.PixelSearch(769, 537, 833, 585, 0x00FFFF);
+
+            } while (_autoit.error == 1);
+
+            //; Train ID display and CPRS 1234 selected for CPRS is this correct?
+            _autoit.MouseClick("left", 744, 614);    //click 'Yes' (Left 1st button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|PRM\|1\|D\|PRESS\sKEY\sTO\sMODIFY\sOR\sACCEPT\sCONSIST\sDATA\sOR\sREQUEST\sNEW\sCONSIST\sDATA");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            //; wait for train ID conformation and Train consist
+            //; Find a pure Cyon pixel in the range
+            //Do
+            //    Local $coord = PixelSearch(769, 537, 833, 585, 0x00FFFF)
+            //Until Not @error
+            do
+            {
+                _autoit.Sleep(400);
+                _autoit.PixelSearch(769, 537, 833, 585, 0x00FFFF);
+
+            } while (_autoit.error == 1);
+
+            _autoit.MouseClick("left", 1334, 614);    //click 'Accept' (Right 1st Button) to accept Train ID and Consist
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|{5}Begin\sTest\|{3}Cancel");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            //; wait for train data and then departure test
+            //;Sleep(8000)
+            //; Find a pure Cyon pixel in the range
+            //Do
+            //    Local $coord = PixelSearch(769, 537, 833, 585, 0x00FFFF)
+            //Until Not @error
+            do
+            {
+                _autoit.Sleep(400);
+                _autoit.PixelSearch(769, 537, 833, 585, 0x00FFFF);
+
+            } while (_autoit.error == 1);
+
+            //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+            _autoit.MouseClick("left", 1088, 614); //click Begin Test (Right 4th button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|{5}Run\sAudible\sTest\|{3}");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            //; Find a pure Cyon pixel in the range
+            //Do
+            //    Local $coord = PixelSearch(769, 537, 833, 585, 0x00FFFF)
+            //Until Not @error
+            do
+            {
+                _autoit.Sleep(400);
+                _autoit.PixelSearch(769, 537, 833, 585, 0x00FFFF);
+
+            } while (_autoit.error == 1);
+
+            _autoit.MouseClick("left", 1088, 614); //;click Run Audible Test (Right 4th button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|{4}Fail\sTest\|\|Re\-run\sAudible\sTest\|\|Pass\sTest");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            _autoit.MouseClick("left", 1344, 614); //click Pass Test (Right 1st Button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|{8}Exit");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            _autoit.MouseClick("left", 1344, 614); //click Exit (Right 1st Button)
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|2\|Mandatory\sDirectives\|Consist\|{6}Menu\s1");
+
             Console.WriteLine(" first init succeed.");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+
+            //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+            //;TestReport($Message)
         }
 
         public void reInit()
