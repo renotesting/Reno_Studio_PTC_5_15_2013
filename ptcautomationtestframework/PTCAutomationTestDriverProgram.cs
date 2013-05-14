@@ -18,11 +18,11 @@ namespace PTCAutomationTestFramework
             bool DECREASING = false;
 
             //line 2 increasing
-            tc.runTestcase("Line 2", 230.8, 224, 5, DECREASING);
+            //tc.runTestcase("Line 2", 230.8, 224, 5, INCREASING);
             //robot.Sleep(1000);
 
             //line 2 decreasing
-            //tc.runTestcase(2, 220, 200, false);
+            tc.runTestcase("Line 2", 230.8, 224, 5, DECREASING);
             //robot.Sleep(1000);
 
             //line 4 increasing

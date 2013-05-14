@@ -281,14 +281,14 @@ namespace PTCAutomationTestFramework
         
         public void LocoMotion(double StartMP, double SetSPD, bool SetDirection)
         {
-            bool INCREASING = true;
-            bool DECREASING = false;
+            bool INCREASING = false;
+            bool DECREASING = true;
 
             if (_autoit.WinExists("Motion Control - ", "") == 1)
             {
                 _autoit.WinClose("Motion Control - ", "");
-                _autoit.Sleep(1000);
-                _autoit.RunWait("C:\\Users\\liu0011\\Documents\\Simulator6.3.8\\System-Test\\Vital-LocoSimulator.exe");
+                //_autoit.Sleep(1000);
+                //_autoit.RunWait("C:\\Users\\liu0011\\Documents\\Simulator6.3.8\\System-Test\\Vital-LocoSimulator.exe");
             }
 
             //Activate and Focus on the CDU window
