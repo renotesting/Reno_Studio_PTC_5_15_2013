@@ -23,6 +23,8 @@ namespace PTCAutomationTestFramework
             tw_Line2.issuance(line, sMP, eMP, direction);
             tw_Line2.CheckingMiddleware();
             tmc.firstInit_run(sMP, speed, direction);
+            tmc.selectMaintrack();
+            tmc.clearCurrentGoverningSignal();
         }
         //line 4 overload
         //public void runTestcase_Line4(int line, float sMP, float eMP, bool direction)

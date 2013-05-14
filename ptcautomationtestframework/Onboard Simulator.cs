@@ -274,11 +274,6 @@ namespace PTCAutomationTestFramework
             Console.WriteLine(" reinit succeed.");
         }
 
-        public void clearCurrentGoverningSignal()
-        {
-            Console.WriteLine(" current governing signal cleared successfully.");
-        }
-        
         public void LocoMotion(double StartMP, double SetSPD, bool SetDirection)
         {
             bool INCREASING = false;
@@ -375,6 +370,50 @@ namespace PTCAutomationTestFramework
             Console.WriteLine(" Move loco succeed. Movement direction is " + SetDirection.ToString() + " at speed of " + SetSPD.ToString());
         }
 
+        public void selectMaintrack()
+        {
+            Console.WriteLine(" Starting to Select Main Track...");
+
+            string result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|PRM\|\d\|D\|SELECT\sCURRENT\sTRACK");
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            _autoit.WinMove("CDU [D0403000][8 Hz] - {Active}", "", 713, 95);
+            // Wait for prompt color show up
+           // Find a pure Cyon pixel in the range
+            do
+            {
+                _autoit.Sleep(400);
+                _autoit.PixelSearch(769, 537, 833, 585, 0x00FFFF);
+            } while (_autoit.error == 1);
+
+            //;Right 1st: 1334, 614
+            //;Right 2nd: 1257, 614
+            //;Right 3rd: 1174, 614
+            //;Right 4th: 1097, 614
+            //;Left 4th: 1008, 614
+            //;Left 3rd: 927, 614
+            //;Left 2nd: 860, 614
+            //;Left 1th: 778, 614
+
+            _autoit.MouseClick("left", 1097, 614); //click 'Select' (Right 4th Button)
+
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|PRM\|\d\|D\|YOU\sSELECTED\sMAIN\sOttumwa\sCPRS\.\sIS\sTHIS\sCORRECT\?");
+
+            _autoit.WinActivate("CDU [D0403000][8 Hz] - {Active}", "");
+            _autoit.WinWait("CDU [D0403000][8 Hz] - {Active}");
+            
+            _autoit.MouseClick("left", 788, 614); //click 'Yes' (Left 1st Button)
+
+            result = verifyDebugclientmessage(@"\d\d\/\d\d\/\d{4}\|\d\d\:\d\d\:\d\d\.\d{3}\|\d\d\|KDP\|\d|Mandatory\sDirectives\|Consist\|{6}Menu\s1");
+
+            Console.WriteLine(" Selected Main Track.");
+        }
+
+        public void clearCurrentGoverningSignal()
+        {
+            Console.WriteLine(" current governing signal cleared successfully.");
+        }
+
         public void LocoMotion_SetSPD(double speed)
         {
             Console.WriteLine(" Move loco succeed. Movement direction is " + speed.ToString());
@@ -400,7 +439,6 @@ namespace PTCAutomationTestFramework
             setSimulator();
             firstInit();
             LocoMotion(StartMP, SetSPD, SetDirection);
-            clearCurrentGoverningSignal();
         }
 
         public void reInit_run(bool direction)
@@ -409,7 +447,6 @@ namespace PTCAutomationTestFramework
             reInit();
             //LocoMotion(direction);
         }
-
 
         public void verifyBrakingEnforcementStop()
         {
@@ -420,12 +457,6 @@ namespace PTCAutomationTestFramework
         {
                 Console.WriteLine(" Acknowledged authority.");
         }
-
-        public void selectMaintrack()
-        {
-            Console.WriteLine(" Selected Main Track.");
-        }
-
 
         public bool testAnalysis_Tracklmt(double expctedEndMP)
         {
