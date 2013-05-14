@@ -32,7 +32,7 @@ namespace PTCAutomationTestFramework
             _autoit.Send("{Alt}+L");
             _autoit.Send("F");
             _autoit.Send("N");
-            Console.WriteLine("Historical messages deleted");
+            Console.WriteLine(" Historical messages deleted");
             _autoit.Sleep(2000);
         }
 
@@ -41,6 +41,7 @@ namespace PTCAutomationTestFramework
                 string allmessage, asResult;
                 _autoit.WinActivate("Debug Client [", "");
                 _autoit.WinWait("Debug Client [");
+                _autoit.WinMove("Debug Client [", "", 1280, 280);
 
                 do
                 {
@@ -52,7 +53,7 @@ namespace PTCAutomationTestFramework
 
                 deleteDebugClientmessage();
 
-                Console.WriteLine("The message was verified: " + asResult.ToString());
+                Console.WriteLine(" The message was verified: " + asResult.ToString());
                 return asResult;
         }
 
@@ -278,12 +279,103 @@ namespace PTCAutomationTestFramework
             Console.WriteLine(" current governing signal cleared successfully.");
         }
         
-        public void LocoMotion(bool direction)
+        public void LocoMotion(double StartMP, double SetSPD, bool SetDirection)
         {
-            Console.WriteLine(" Move loco succeed. Movement direction is " + direction.ToString());
+            bool INCREASING = true;
+            bool DECREASING = false;
+
+            if (_autoit.WinExists("Motion Control - ", "") == 1)
+            {
+                _autoit.WinClose("Motion Control - ", "");
+                _autoit.Sleep(1000);
+                _autoit.RunWait("C:\\Users\\liu0011\\Documents\\Simulator6.3.8\\System-Test\\Vital-LocoSimulator.exe");
+            }
+
+            //Activate and Focus on the CDU window
+            _autoit.WinActivate("Loco[CPRS  1234]", "");
+            _autoit.WinMove("Loco[CPRS  1234]", "", 810, 39);
+
+            _autoit.Send("{Alt}+F");
+            _autoit.Send("T");
+            _autoit.Send("L");
+            _autoit.Send("S");
+            //_autoit.Send("CPRS.00153.66.opk");
+
+            _autoit.WinActivate("Open", "");
+            _autoit.ControlSetText("Open", "", "[CLASS:Edit; ID:1148]", "CPRS.00153.70.opk");
+            _autoit.Send("{TAB 2}");
+            _autoit.Send("{ENTER}");
+            //_autoit.ControlClick("Open", "", "[CLASS:Button; ID: 1; INSTANCE:2]");
+
+            _autoit.WinActivate("Loco[CPRS  1234]", "");
+            _autoit.Send("{Alt}+M");
+            _autoit.Send("Controls...");
+
+            _autoit.WinActivate("Motion Control - Heading","");
+            _autoit.WinMove("Motion Control - Heading", "", 810, 192);
+            //click 'Sub' dropdown
+            _autoit.Send("{DOWN}");
+            //click dropdown "153 [CPRS]"
+            _autoit.Send("{TAB 2}");
+            //click dropdown "Offset" and "MP"
+            //click dropdown "MP"
+            _autoit.Send("{DOWN}");
+
+            //MouseClick("left", 1165, 245) ;click MP input
+            _autoit.Send("{TAB}");
+            // Send(230.8000)
+            // Input head end starting MP for locomotive
+            _autoit.Send(StartMP.ToString());
+
+            // Move to Direction option check box
+            _autoit.Send("{TAB 1}");
+            string checkButtonstatus = _autoit.ControlCommand("Motion Control - Heading", "DEC", "[CLASS:Button; ID:1043]", "IsChecked", "");
+
+            if ((SetDirection == INCREASING) && (checkButtonstatus == "0"))           //Then Decreasing and never checked
+            {    _autoit.Send("{SPACE}");
+	            _autoit.Send("{TAB 1}");
+            }
+
+            if ((SetDirection == INCREASING) && (checkButtonstatus == "1"))          //Decreasing but checked
+            {
+	            _autoit.Send("{TAB 1}");
+            }
+
+            if ((SetDirection == DECREASING) && (checkButtonstatus == "0"))         //Increasing and never checked
+            {
+	            _autoit.Send("{TAB 1}");
+            }
+
+            if ((SetDirection == DECREASING) && (checkButtonstatus == "1"))          //Increasing but checked
+            {
+	            _autoit.Send("{SPACE}");                            //unCheck it
+	            _autoit.Send("{TAB 1}");
+            }
+            
+            // Hit Set button
+            _autoit.Send("{SPACE}");
+            //Select Main or Siding on pop up "Select Milepost Dialog"
+            _autoit.WinActivate("Select Milepost", "");
+            _autoit.Send("{SPACE}");
+
+
+            //MouseClick("left", 1169, 465) ;click Speed Control
+            _autoit.Send("{TAB 4}");
+            //;Send("{END}")
+            //;Send("{LSHIFT}+{HOME}")
+            //;Send("{DEL 7}")
+            _autoit.Sleep(2000);
+            //;~ Send(5.00)
+            _autoit.Send(SetSPD.ToString());
+            //;MouseClick("left", 1127, 464)
+            _autoit.Send("+{TAB 1}");
+            _autoit.Send("{SPACE}");
+            _autoit.Sleep(1000);
+
+            Console.WriteLine(" Move loco succeed. Movement direction is " + SetDirection.ToString() + " at speed of " + SetSPD.ToString());
         }
 
-        public void LocoMotion_SetSPD(float speed)
+        public void LocoMotion_SetSPD(double speed)
         {
             Console.WriteLine(" Move loco succeed. Movement direction is " + speed.ToString());
         }
@@ -293,9 +385,9 @@ namespace PTCAutomationTestFramework
                 Console.WriteLine(" switch is in Normal position." + swPosition.ToString());
         }
 
-        public void changeFacingSignal(int SG)
+        public void changeFacingSignal(string SG)
         {
-                Console.WriteLine(" signal is SG2/3/4/5." + SG.ToString());
+                Console.WriteLine(" signal is SG2/3/4/5." + SG);
         }
 
         public void testReportTMC()
@@ -303,11 +395,11 @@ namespace PTCAutomationTestFramework
             Console.WriteLine(" test report succeed.");
         }
 
-        public void firstInit_run(bool direction)
+        public void firstInit_run(double StartMP, double SetSPD, bool SetDirection)
         {
             setSimulator();
             firstInit();
-            LocoMotion(direction);
+            LocoMotion(StartMP, SetSPD, SetDirection);
             clearCurrentGoverningSignal();
         }
 
@@ -315,7 +407,7 @@ namespace PTCAutomationTestFramework
         {
             setSimulator();
             reInit();
-            LocoMotion(direction);
+            //LocoMotion(direction);
         }
 
 
@@ -335,13 +427,13 @@ namespace PTCAutomationTestFramework
         }
 
 
-        public bool testAnalysis_Tracklmt(float expctedEndMP)
+        public bool testAnalysis_Tracklmt(double expctedEndMP)
         {
             Console.WriteLine(" Test train stop before he end MP successfully .");
             return false;
         }
 
-        public bool testAnalysis_SPDtgt(float expectedSPD)
+        public bool testAnalysis_SPDtgt(double expectedSPD)
         {
             Console.WriteLine(" Test train stop successfully when movement speed is enforced.");
             Console.WriteLine(expectedSPD);

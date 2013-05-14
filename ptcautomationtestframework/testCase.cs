@@ -18,11 +18,11 @@ namespace PTCAutomationTestFramework
         Onboard_Simulator tmc = new Onboard_Simulator();
 
         //line 2 overload
-        public void runTestcase(int line, float sMP, float eMP, bool direction)
+        public void runTestcase(string line, double sMP, double eMP, double speed, bool direction)
         {
             tw_Line2.issuance(line, sMP, eMP, direction);
-            tw_Line2.run();
-            tmc.firstInit_run(direction);
+            tw_Line2.CheckingMiddleware();
+            tmc.firstInit_run(sMP, speed, direction);
         }
         //line 4 overload
         //public void runTestcase_Line4(int line, float sMP, float eMP, bool direction)

@@ -20,16 +20,16 @@ namespace PTCAutomationTestFramework
         void firstInit();
         void reInit();
 
-        void LocoMotion(bool direction);
-        void LocoMotion_SetSPD(float speed);
+        void LocoMotion(double StartMP, double SetSPD, bool SetDirection);
+        void LocoMotion_SetSPD(double speed);
 
         void selectMaintrack();
 
         void changeSwitchposition(bool position);
-        void changeFacingSignal(int SG);
+        void changeFacingSignal(string SG);
 
-        bool testAnalysis_Tracklmt(float expctedEndMP);
-        bool testAnalysis_SPDtgt(float speed);
+        bool testAnalysis_Tracklmt(double expctedEndMP);
+        bool testAnalysis_SPDtgt(double speed);
         void testReportTMC();
 
     }

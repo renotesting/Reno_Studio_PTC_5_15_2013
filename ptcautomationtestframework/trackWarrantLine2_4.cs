@@ -10,14 +10,14 @@ namespace PTCAutomationTestFramework
     public class trackWarrantLine2_4 : TrackWarrent
     {
         //line 2
-        public void issuance(int line, float sMP, float eMP, bool direction)
+        public void issuance(string line, double sMP, double eMP, bool direction)
         {
-            Console.WriteLine(" TW line " + line.ToString() + " from " + sMP.ToString() + " to " + eMP.ToString() + "  " + direction.ToString() + " issuance succeeded.");
+            Console.WriteLine(" TW line " + line + " from " + sMP.ToString() + " to " + eMP.ToString() + "  " + direction.ToString() + " issuance succeeded.");
         }
         //line 4
-        public void issuance(int line, float sMP, float eMP)
+        public void issuance(string line, double sMP, double eMP)
         {
-            Console.WriteLine(" TW line 4 issuance succeeded.");
+            Console.WriteLine(" TW line " + line + " from " + sMP.ToString() + " to " + eMP.ToString() + " issuance succeeded.");
         }
 
     }

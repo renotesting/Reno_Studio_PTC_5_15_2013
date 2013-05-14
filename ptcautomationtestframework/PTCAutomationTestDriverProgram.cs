@@ -13,11 +13,13 @@ namespace PTCAutomationTestFramework
         static void Main(string[] args)
         {
             AutoItX3Lib.AutoItX3 robot = new AutoItX3Lib.AutoItX3();
-
             testCase tc = new testCase();
+            bool INCREASING = true;
+            bool DECREASING = false;
+
             //line 2 increasing
-            tc.runTestcase(2, 210, 220, true);
-            robot.Sleep(1000);
+            tc.runTestcase("Line 2", 230.8, 224, 5, DECREASING);
+            //robot.Sleep(1000);
 
             //line 2 decreasing
             //tc.runTestcase(2, 220, 200, false);

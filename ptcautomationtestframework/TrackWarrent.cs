@@ -25,10 +25,10 @@ namespace PTCAutomationTestFramework
 
         public void testReportDispatch()
         {
-            Console.WriteLine(" BOS transmited message successfully.");
+            Console.WriteLine(" IIS and BOS transmited message successfully.");
         }
 
-        public void run()
+        public void CheckingMiddleware()
         {
             checkIIS();
             checkBOS();
