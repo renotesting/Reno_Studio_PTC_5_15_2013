@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Windows.Controls;  //Must add PresentationFramework.dll, PresentationCore.dll, WindowsBase.dll & System.Xaml for this System.Windows.Controls namespalce
 
 namespace PTCAutomationTestFramework
 {
@@ -411,6 +412,9 @@ namespace PTCAutomationTestFramework
 
         public void clearCurrentGoverningSignal()
         {
+            Console.WriteLine(" Starting to clear current governing signal...");
+            var proc = Process.Start("C:\\gitrepo\\ptc\\PTCAutomationTestFramework\\autoit\\ClearCurrentGoverningSignal_command.exe");
+            proc.WaitForExit();
             Console.WriteLine(" current governing signal cleared successfully.");
         }
 
